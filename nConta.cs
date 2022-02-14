@@ -1,27 +1,35 @@
 using System;
+using System.Collections.Generic;
 
 class NConta {
-  private Conta[] contas = new Conta[10];
-  private int nc;
+  private List<Conta> contas = new List<Conta>();
 
-  public Conta[] Listar() {
-    Conta[] c = new Conta[nc];
-    Array.Copy(contas, c, nc);
-    return c;
+  public List<Conta> Listar() {
+    return contas;
   }
 
   public Conta Listar(int id) {
-    for (int i = 0; i < nc; i++)
-      if (contas[i].getId() == id) return contas[i];
+    for (int i = 0; i < contas.Count; i++)
+      if (contas[i].id == id) return contas[i];
     return null;  
   }
 
   public void Inserir(Conta c) {
-    if (nc == contas.Length) {
-      Array.Resize(ref contas, 2 * contas.Length);
-    }
-    contas[nc] = c;
-    nc++;
+    int max = 0;
+    foreach(Conta obj in contas)
+      if (obj.id > max) max = obj.id;
+    c.id = max + 1;      
+    contas.Add(c);
   } 
 
+  public void Atualizar(Conta c) {
+    Conta c_atual = Listar(c.id);
+    if (c_atual == null) return;
+    c_atual.saldo = c.saldo;
+    c_atual.conta = c.conta;
+  } 
+
+  public void Excluir(Conta c) {
+    if (c != null) contas.Remove(c);
+  }
 }
