@@ -5,6 +5,7 @@ class NConta {
   private List<Conta> contas = new List<Conta>();
 
   public List<Conta> Listar() {
+    contas.Sort();
     return contas;
   }
 

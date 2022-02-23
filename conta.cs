@@ -1,6 +1,6 @@
 using System;
 
-class Conta{
+class Conta : IComparable<Conta> {
   public int id {get; set;}
   public double saldo {get; set;}
   public int conta {get; set;}
@@ -21,5 +21,9 @@ class Conta{
   
   public override string ToString(){
     return id + " - " + saldo + " - " + conta;
+  }
+
+  public int CompareTo(Conta obj){
+    return this.conta.CompareTo(obj.conta);
   }
 }

@@ -5,12 +5,13 @@ class Program {
   public static NConta nconta = new NConta();
   public static NTransferencia ntransferencia = new NTransferencia();
   public static NSaque nsaque = new NSaque();
+  public static NEmprestimo nemprestimo  = new NEmprestimo();
 
   public static void Main() {
     Conta c1 = new Conta(1, 10.0, 123);
     Conta c2 = new Conta(2, 5.3, 321);
-    nconta.Inserir(c1);
     nconta.Inserir(c2);
+    nconta.Inserir(c1);
 
     int op = 0;
     Console.WriteLine ("----- Sistema Bancário ------");
@@ -30,6 +31,10 @@ class Program {
           case 10 : saqueCriar(); break;
           case 11: saqueAtualizar(); break;
           case 12: saqueExcluir(); break;
+          case 13 : emprestimoListar(); break;
+          case 14 : emprestimoCriar(); break;
+          case 15 : emprestimoAtualizar(); break;
+          case 16 : emprestimoExcluir(); break;
         }
       }
       catch (Exception erro) {
@@ -41,19 +46,27 @@ class Program {
   }
   public static int Menu() {
     Console.WriteLine();
-    Console.WriteLine("----------------------------------");
-    Console.WriteLine("1 - Tranferência - Listar");
-    Console.WriteLine("2 - Tranferência - criar");
-    Console.WriteLine("3 - Tranferência - atualizar");
-    Console.WriteLine("4 - Tranferência - excluir");
-    Console.WriteLine("5 - Conta - Listar");
-    Console.WriteLine("6 - Conta - criar");
-    Console.WriteLine("7 - Conta - atualizar");
-    Console.WriteLine("8 - Conta - excluir");
-    Console.WriteLine("9 - Saque - Listar");
-    Console.WriteLine("10 - Saque - criar");
-    Console.WriteLine("11 - Saque - atualizar");
-    Console.WriteLine("12 - Saque - excluir");
+    Console.WriteLine("--------Tranferência----------");
+    Console.WriteLine("1 - Listar");
+    Console.WriteLine("2 - criar");
+    Console.WriteLine("3 - atualizar");
+    Console.WriteLine("4 - excluir");
+    Console.WriteLine("----------Conta---------------");
+    Console.WriteLine("5 - Listar");
+    Console.WriteLine("6 - criar");
+    Console.WriteLine("7 - atualizar");
+    Console.WriteLine("8 - excluir");
+    Console.WriteLine("-----------Saque--------------");
+    Console.WriteLine("9 - Listar");
+    Console.WriteLine("10 - criar");
+    Console.WriteLine("11 - atualizar");
+    Console.WriteLine("12 - excluir");
+    Console.WriteLine("----------Empréstimo----------");
+    Console.WriteLine("13 - Listar");
+    Console.WriteLine("14 - criar");
+    Console.WriteLine("15 - atualizar");
+    Console.WriteLine("16 - excluir");
+    Console.WriteLine("------------------------------");
     Console.WriteLine("0 - Fim");
     Console.Write("Informe uma opção: ");
     int op = int.Parse(Console.ReadLine());
@@ -213,5 +226,57 @@ class Program {
     int id = int.Parse(Console.ReadLine());
     Saque s = nsaque.Listar(id);
     nsaque.Excluir(s);
+  }
+
+  public static void emprestimoCriar() {
+    Console.WriteLine("----- criação de Empréstimo -----");
+    Console.Write("Informe a data: ");
+    string data = Console.ReadLine();
+    Console.Write("Informe o valor para do empréstimo: ");
+    double valor= double.Parse(Console.ReadLine());
+    Console.Write("Informe a conta de Origem para o empréstimo: ");
+    int idContaOrigem = int.Parse(Console.ReadLine());
+    Console.Write("Informe a quantidade de parcelas: ");
+    int qtdParcelas = int.Parse(Console.ReadLine());
+    
+    Emprestimo e = new Emprestimo( 0, data, valor,         idContaOrigem, qtdParcelas);
+    nemprestimo.Inserir(e);
+  }
+
+  public static void emprestimoListar() {
+    Console.WriteLine("----- Lista de Emprestimo -----");
+    List<Emprestimo> es = nemprestimo.Listar();
+    if (es.Count == 0) {
+      Console.WriteLine("Nenhum emprestimo cadastrado");
+      return;
+    }
+    foreach(Emprestimo e in es) Console.WriteLine(e);
+    Console.WriteLine(); 
+  
+  }
+
+  public static void emprestimoAtualizar() {
+    Console.WriteLine("----- Atualização de emprestimo -----");
+    Console.Write("Informe id para o emprestimo: ");
+    int id = int.Parse(Console.ReadLine());
+    Console.Write("Informe a data: ");
+    string data = Console.ReadLine();
+    Console.Write("Informe o valor para o emprestimo: ");
+    double valor= double.Parse(Console.ReadLine());
+    Console.Write("Informe a conta de Origem para o emprestimo: ");
+    int idContaOrigem = int.Parse(Console.ReadLine());
+    Console.Write("Informe a quantidade de parcelas: ");
+    int qtdParcelas = int.Parse(Console.ReadLine());
+
+    Emprestimo e = new Emprestimo(id, data, valor,         idContaOrigem, qtdParcelas);
+    nemprestimo.Atualizar(e);
+  }
+
+  public static void emprestimoExcluir() {
+    Console.WriteLine("----- Exclusão de emprestimo -----");
+    Console.Write("Informe o id do emprestimo a ser excluído: ");
+    int id = int.Parse(Console.ReadLine());
+    Emprestimo e = nemprestimo.Listar(id);
+    nemprestimo.Excluir(e);
   }
 }
