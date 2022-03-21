@@ -1,11 +1,18 @@
 using System;
 
-class Transferencia{
-  public int id { get; set; }
-  public string data { get; set; }
-  public double valor { get; set; }
-  public int contaOrigem { get; set; }
-  public int contaDestino { get; set; }
+public class Transferencia{
+  private int id;
+  private string data;
+  private double valor;
+  private int contaOrigem;
+  private int contaDestino;
+  public int Id {get => id; set => id = value;}
+  public string Data {get => data; set => data = value;}
+  public double Valor {get => valor; set => valor = value;}
+  public int ContaOrigem {get => contaOrigem; set => contaOrigem = value;}
+  public int ContaDestino {get => contaDestino; set => contaDestino = value;}
+
+  public Transferencia() {}
   
   public Transferencia(int id, string data, double valor, int contaOrigem, int contaDestino){
     this.id = id;
@@ -13,10 +20,6 @@ class Transferencia{
     this.valor = valor;
     this.contaOrigem = contaOrigem;
     this.contaDestino = contaDestino;
-  }
-
-  public void reverterTrasnferencia(){
-    
   }
 
   public override string ToString(){

@@ -1,10 +1,15 @@
 using System;
 
-class Conta : IComparable<Conta> {
-  public int id {get; set;}
-  public double saldo {get; set;}
-  public int conta {get; set;}
+public class Conta : IComparable<Conta> {
+  private int id;
+  private double saldo;
+  private int conta_;
+  public int Id {get => id; set => id = value;}
+  public double Saldo {get => saldo; set => saldo = value;}
+  public int conta {get => conta_; set => conta_ = value;}
 
+  public Conta() {}
+  
   public Conta(int id, double saldo, int conta){
     this.id = id;
     this.saldo = saldo;

@@ -1,37 +1,62 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 class NTransferencia {
-  private List<Transferencia> transferencias = new List<Transferencia>();
+  private Transferencia[] transferencias = new Transferencia[10];
+  private int nt;
 
-  public List<Transferencia> Listar() {
-    return transferencias;
+  public void Abrir() {
+    Arquivo<Transferencia[]> f = new Arquivo<Transferencia[]>();
+    transferencias = f.Abrir("./transferencias.xml");
+    nt = transferencias.Length;
+  }
+
+  public void Salvar() {
+    Arquivo<Transferencia[]> f = new Arquivo<Transferencia[]>();
+    f.Salvar("./transferencias.xml", Listar());
+  }
+  
+  public Transferencia[] Listar() {
+    return transferencias.Take(nt).OrderBy(obj => obj.Valor).ToArray();
   }
 
   public Transferencia Listar(int id) {
-    for (int i = 0; i < transferencias.Count; i++)
-      if (transferencias[i].id == id) return transferencias[i];
-    return null;  
+    return transferencias.FirstOrDefault(obj => obj.Id == id);
+  }
+
+  public Transferencia[] ListarPorConta(int ct) {
+    return transferencias.Where(t => t.ContaOrigem == ct).ToArray();
   }
 
   public void Inserir(Transferencia t) {
-    int max = 0;
-    foreach(Transferencia obj in transferencias)
-      if (obj.id > max) max = obj.id;
-    t.id = max + 1;      
-    transferencias.Add(t);
+    if (nt == transferencias.Length) {
+      Array.Resize(ref transferencias, 2 * transferencias.Length);
+    }
+    transferencias[nt] = t;
+    nt++;
   } 
 
   public void Atualizar(Transferencia t) {
-    Transferencia t_atual = Listar(t.id);
+    Transferencia t_atual = Listar(t.Id);
     if (t_atual == null) return;
-    t_atual.data = t.data;
-    t_atual.valor = t.valor;
-    t_atual.contaOrigem = t.contaOrigem;
-    t_atual.contaDestino = t.contaDestino;
-    }
+    t_atual.Data = t.Data;
+    t_atual.Valor = t.Valor;
+    t_atual.ContaOrigem = t.ContaOrigem;
+    t_atual.ContaDestino = t.ContaDestino;
+  }
 
+  private int Indice(Transferencia t) {
+    for (int i = 0; i < nt; i++)
+      if (transferencias[i] == t) return i;
+    return -1;      
+  }
+  
   public void Excluir(Transferencia t) {
-    if (t != null) transferencias.Remove(t);
+    int n = Indice(t);
+    if (n == -1) return;
+    for (int i = n; i < nt - 1; i++)
+      transferencias[i] = transferencias[i + 1];
+    nt--;
   }
 }

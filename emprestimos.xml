@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfEmprestimo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Emprestimo>
+    <Id>1</Id>
+    <Data>20/03/2022</Data>
+    <Valor>200</Valor>
+    <ContaOrigem>3</ContaOrigem>
+    <QtdParcelas>10</QtdParcelas>
+  </Emprestimo>
+</ArrayOfEmprestimo>

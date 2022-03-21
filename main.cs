@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 class Program {
   public static NConta nconta = new NConta();
@@ -8,10 +9,15 @@ class Program {
   public static NEmprestimo nemprestimo  = new NEmprestimo();
 
   public static void Main() {
-    Conta c1 = new Conta(1, 10.0, 123);
-    Conta c2 = new Conta(2, 5.3, 321);
-    nconta.Inserir(c2);
-    nconta.Inserir(c1);
+    try {
+      nconta.Abrir();
+      nemprestimo.Abrir();
+      ntransferencia.Abrir();
+      nsaque.Abrir();
+    }
+    catch(Exception erro) {
+      Console.WriteLine(erro.Message);
+    }
 
     int op = 0;
     Console.WriteLine ("----- Sistema Bancário ------");
@@ -20,21 +26,22 @@ class Program {
         op = Menu();
         switch(op) {
           case 1 : transferenciaListar(); break;
-          case 2 : transferenciaCriar(); break;
-          case 3 : transferenciaAtualizar(); break;
-          case 4 : transferenciaExcluir(); break;
-          case 5 : contaListar(); break;
-          case 6 : contaCriar(); break;
-          case 7: contaAtualizar(); break;
-          case 8: contaExcluir(); break;
-          case 9 : saqueListar(); break;
-          case 10 : saqueCriar(); break;
-          case 11: saqueAtualizar(); break;
-          case 12: saqueExcluir(); break;
-          case 13 : emprestimoListar(); break;
-          case 14 : emprestimoCriar(); break;
-          case 15 : emprestimoAtualizar(); break;
-          case 16 : emprestimoExcluir(); break;
+          case 2 : transferenciaListarPorConta(); break;
+          case 3 : transferenciaCriar(); break;
+          case 4 : transferenciaAtualizar(); break;
+          case 5 : transferenciaExcluir(); break;
+          case 6 : contaListar(); break;
+          case 7 : contaCriar(); break;
+          case 8: contaAtualizar(); break;
+          case 9: contaExcluir(); break;
+          case 10 : saqueListar(); break;
+          case 11 : saqueCriar(); break;
+          case 12: saqueAtualizar(); break;
+          case 13: saqueExcluir(); break;
+          case 14 : emprestimoListar(); break;
+          case 15 : emprestimoCriar(); break;
+          case 16 : emprestimoAtualizar(); break;
+          case 17 : emprestimoExcluir(); break;
         }
       }
       catch (Exception erro) {
@@ -42,30 +49,40 @@ class Program {
         op = 100;
       }
     } while (op != 0);
+    try {
+      nconta.Salvar();
+      nemprestimo.Salvar();
+      ntransferencia.Salvar();
+      nsaque.Salvar();
+    }
+    catch(Exception erro) {
+      Console.WriteLine(erro.Message);
+    }
     Console.WriteLine ("FIM!");    
   }
   public static int Menu() {
     Console.WriteLine();
     Console.WriteLine("--------Tranferência----------");
     Console.WriteLine("1 - Listar");
-    Console.WriteLine("2 - criar");
-    Console.WriteLine("3 - atualizar");
-    Console.WriteLine("4 - excluir");
+    Console.WriteLine("2 - Listar por conta");
+    Console.WriteLine("3 - criar");
+    Console.WriteLine("4 - atualizar");
+    Console.WriteLine("5 - excluir");
     Console.WriteLine("----------Conta---------------");
-    Console.WriteLine("5 - Listar");
-    Console.WriteLine("6 - criar");
-    Console.WriteLine("7 - atualizar");
-    Console.WriteLine("8 - excluir");
+    Console.WriteLine("6 - Listar");
+    Console.WriteLine("7 - criar");
+    Console.WriteLine("8 - atualizar");
+    Console.WriteLine("9 - excluir");
     Console.WriteLine("-----------Saque--------------");
-    Console.WriteLine("9 - Listar");
-    Console.WriteLine("10 - criar");
-    Console.WriteLine("11 - atualizar");
-    Console.WriteLine("12 - excluir");
+    Console.WriteLine("10 - Listar");
+    Console.WriteLine("11 - criar");
+    Console.WriteLine("12 - atualizar");
+    Console.WriteLine("13 - excluir");
     Console.WriteLine("----------Empréstimo----------");
-    Console.WriteLine("13 - Listar");
-    Console.WriteLine("14 - criar");
-    Console.WriteLine("15 - atualizar");
-    Console.WriteLine("16 - excluir");
+    Console.WriteLine("14 - Listar");
+    Console.WriteLine("15 - criar");
+    Console.WriteLine("16 - atualizar");
+    Console.WriteLine("17 - excluir");
     Console.WriteLine("------------------------------");
     Console.WriteLine("0 - Fim");
     Console.Write("Informe uma opção: ");
@@ -76,8 +93,35 @@ class Program {
 
   public static void transferenciaListar() {
     Console.WriteLine("----- Lista de Tranfêrencias -----");
-    List<Transferencia> ts = ntransferencia.Listar();
-    if (ts.Count == 0) {
+    Transferencia[] ts = ntransferencia.Listar();
+    if (ts.Length == 0) {
+      Console.WriteLine("Nenhuma tranfêrencia cadastrada");
+      return;
+    }
+    foreach(Transferencia t in ts) Console.WriteLine(t);
+    Console.WriteLine(); 
+
+    var t1 = ts.Select(t => new {
+      data = t.Data,
+      Valor = t.Valor
+    });
+
+    var t2 = t1.GroupBy(item => item.data,
+      (key, items) => new {
+        data = key,
+        Total = items.Sum(item => item.Valor) 
+    });
+
+    foreach(var item in t2) Console.WriteLine(item);
+    Console.WriteLine();
+  }
+
+  public static void transferenciaListarPorConta() {
+    Console.WriteLine("-- Lista de Tranfêrencias por conta --");
+    Console.Write("Informe a conta de Origem das tranfêrencias: ");
+    int idContaOrigem = int.Parse(Console.ReadLine());
+    Transferencia[] ts = ntransferencia.ListarPorConta(idContaOrigem);
+    if (ts.Length == 0) {
       Console.WriteLine("Nenhuma tranfêrencia cadastrada");
       return;
     }
@@ -241,6 +285,10 @@ class Program {
     
     Emprestimo e = new Emprestimo( 0, data, valor,         idContaOrigem, qtdParcelas);
     nemprestimo.Inserir(e);
+
+    Conta contaOrigem = nconta.Listar(idContaOrigem);
+    contaOrigem.depositar(valor);
+    nconta.Atualizar(contaOrigem);
   }
 
   public static void emprestimoListar() {

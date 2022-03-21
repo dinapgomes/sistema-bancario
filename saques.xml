@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfSaque xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Saque>
+    <Id>1</Id>
+    <Data>20/03/2022</Data>
+    <Valor>15</Valor>
+    <ContaOrigem>3</ContaOrigem>
+  </Saque>
+  <Saque>
+    <Id>2</Id>
+    <Data>17/02/2022</Data>
+    <Valor>3</Valor>
+    <ContaOrigem>2</ContaOrigem>
+  </Saque>
+</ArrayOfSaque>

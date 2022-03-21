@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfTransferencia xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Transferencia>
+    <Id>1</Id>
+    <Data>17/02/2022</Data>
+    <Valor>13.6</Valor>
+    <ContaOrigem>3</ContaOrigem>
+    <ContaDestino>2</ContaDestino>
+  </Transferencia>
+  <Transferencia>
+    <Id>2</Id>
+    <Data>20/03/2022</Data>
+    <Valor>20.56</Valor>
+    <ContaOrigem>3</ContaOrigem>
+    <ContaDestino>2</ContaDestino>
+  </Transferencia>
+  <Transferencia>
+    <Id>1</Id>
+    <Data>20/03/2022</Data>
+    <Valor>21</Valor>
+    <ContaOrigem>1</ContaOrigem>
+    <ContaDestino>2</ContaDestino>
+  </Transferencia>
+  <Transferencia>
+    <Id>1</Id>
+    <Data>17/02/2022</Data>
+    <Valor>43.6</Valor>
+    <ContaOrigem>3</ContaOrigem>
+    <ContaDestino>1</ContaDestino>
+  </Transferencia>
+  <Transferencia>
+    <Id>1</Id>
+    <Data>20/03/2022</Data>
+    <Valor>50.4</Valor>
+    <ContaOrigem>3</ContaOrigem>
+    <ContaDestino>1</ContaDestino>
+  </Transferencia>
+</ArrayOfTransferencia>

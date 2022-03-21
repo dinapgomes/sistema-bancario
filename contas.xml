@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfConta xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Conta>
+    <Id>3</Id>
+    <Saldo>197.64000000000004</Saldo>
+    <conta>111</conta>
+  </Conta>
+  <Conta>
+    <Id>1</Id>
+    <Saldo>133.29999999999998</Saldo>
+    <conta>123</conta>
+  </Conta>
+  <Conta>
+    <Id>2</Id>
+    <Saldo>68.56</Saldo>
+    <conta>321</conta>
+  </Conta>
+</ArrayOfConta>
